@@ -7,6 +7,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, MenuItem, Button, Box } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import logo from "../../assets/seva_logo-removebg-preview.png"; // Add this import
+import { Link } from "react-router-dom"; // Add this import
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -21,14 +23,19 @@ const Navbar: React.FC = () => {
     setAnchorEl(null);
   };
 
-  const menuItems = ["Home", "About", "Services", "Contact"];
+  const menuItems = [
+    { text: "Home", link: "/" },
+    { text: "Events", link: "/events" },
+    { text: "Our Team", link: "/our-team" },
+    { text: "Contact", link: "/contact" },
+  ];
 
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="static" sx={{ backgroundColor: "#00275D" }}> {/* Change color here */}
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'left' }}>
-          My Website
-        </Typography>
+        <Box sx={{ flexGrow: 1, textAlign: 'left' , paddingTop: 0.6 }}>
+          <img src={logo} alt="Sewa Uvic" style={{ height: 65 }} /> {/* Replace Typography with img */}
+        </Box>
 
         {isMobile ? (
           <>
@@ -46,17 +53,17 @@ const Navbar: React.FC = () => {
               onClose={handleMenuClose}
             >
               {menuItems.map((item) => (
-                <MenuItem key={item} onClick={handleMenuClose}>
-                  {item}
+                <MenuItem key={item.text} onClick={handleMenuClose} component={Link} to={item.link}>
+                  {item.text}
                 </MenuItem>
               ))}
             </Menu>
           </>
         ) : (
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{ display: "flex", gap: 2 ,color: '#E6B637' }}>
             {menuItems.map((item) => (
-              <Button key={item} color="inherit">
-                {item}
+              <Button key={item.text} color="inherit" sx={{ fontSize: '1rem' }} component={Link} to={item.link}>
+                {item.text}
               </Button>
             ))}
           </Box>
